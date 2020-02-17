@@ -32,8 +32,6 @@ public class MainWindowController {
     @FXML private PasswordField passwordFieldBottom;
     @FXML private TextArea userTextArea;
 
-    private boolean isEncrypted = false;
-
     /**
      * Initializes the main window.
      */
@@ -57,17 +55,11 @@ public class MainWindowController {
             return;
         }
 
-        if (isEncrypted) {
-            return;
-        }
-
         byte[] ciphertext = Base64.getEncoder().encode(
                 CipherByte.encrypt(userTextArea.getText().getBytes(), passwordFieldBottom.getText())
         );
 
         userTextArea.setText(new String(ciphertext));
-
-        isEncrypted = true;
     }
 
     /**
@@ -85,16 +77,11 @@ public class MainWindowController {
             return;
         }
 
-        if (!isEncrypted) {
-            return;
-        }
-
         byte[] plaintext = CipherByte.decrypt(
                 Base64.getDecoder().decode(userTextArea.getText().getBytes()), passwordFieldBottom.getText()
         );
 
         userTextArea.setText(new String(plaintext));
-        isEncrypted = false;
     }
 
     /**
